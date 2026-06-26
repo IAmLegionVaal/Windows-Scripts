@@ -907,11 +907,11 @@ function Menu-Accounts {
 
         if ($c -eq "0") { return }
         elseif ($c -eq "1") { Unlock-LocalUser -Name (Read-Host "   Target Account Username"); Wait-Key }
-        elseif ($c -eq "2") { Set-LocalUser -Name (Read-Host "   Username") -Password (ConvertTo-SecureString (Read-Host "   New Password") -AsPlainText -Force); Wait-Key }
+        elseif ($c -eq "2") { Set-LocalUser -Name (Read-Host "   Username") -Password (Read-Host "   New Password" -AsSecureString); Wait-Key }
         elseif ($c -eq "3") {
             $u = Read-Host "   Enter Target New Username"
-            $p = Read-Host "   Enter Plaintext Password"
-            New-LocalUser -Name $u -Password (ConvertTo-SecureString $p -AsPlainText -Force) -Description "Emergency Support Admin"
+            $p = Read-Host "   Enter Password" -AsSecureString
+            New-LocalUser -Name $u -Password $p -Description "Emergency Support Admin"
             Add-LocalGroupMember -Group "Administrators" -Member $u; Wait-Key
         }
         elseif ($c -eq "4") { Get-LocalGroupMember -Group "Administrators" | Format-Table Name, PrincipalSource, ObjectClass -AutoSize; Wait-Key }
